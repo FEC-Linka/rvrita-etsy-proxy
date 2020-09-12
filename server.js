@@ -13,20 +13,20 @@ app.use(cors());
 
 const proxyRoutes = [
   {
-    paths: [ '/reviews/*', '/review-summary/*', '/review-list/*', '/reviews-pictures/*', '/reviews-bundle.js' ],
-    server: 'http://etsy-review.rvrita.com',
+    paths: [ '/reviews/*', '/review-summary/*', '/review-list/*', '/reviews-pictures/*', '/reviews-bundle.js', '/*.woff', '/*.woff2' ],
+    server: 'http://etsy-reviews.rvrita.com',
   },
   {
     paths: [ '/itemDetails/*', '/info', '/bundle.js' ],
-    server: 'http://localhost:5000',
+    server: 'http://ec2-3-133-108-106.us-east-2.compute.amazonaws.com',
   },
   {
-    paths: [ '/pictures', '/pictures/*', '/reviewPhotos/*', '/main.bundle.js' ],
-    server: 'http://localhost:3000',
+    paths: [ '/pictures', '/pictures/*', '/reviewPhotos/*', '/pictures.bundle.js' ],
+    server: 'http://13.56.229.226',
   },
   {
     paths: [ '/shipping-api/*', '/dist/ttreit-shipping.js' ],
-    server: 'http://3.93.215.160',
+    server: 'http://3.95.162.236',
   },
 ];
 
@@ -36,6 +36,7 @@ proxyRoutes.forEach(route => {
     const url = server + req.url;
     axios.get(url)
     .then((response) => {
+      res.set('Content-Type', response.headers['content-type']);
       res.send(response.data);
     })
     .catch((error) => {
